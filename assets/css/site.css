@@ -674,6 +674,31 @@ button.chip[aria-pressed="true"] { background: var(--fg); color: var(--bg); bord
 .step:last-child .n::after { background: linear-gradient(90deg, var(--line), transparent); }
 .step h3 { font-size: clamp(1.3rem, 1.8vw, 1.7rem); font-stretch: 110%; font-weight: 500; letter-spacing: -0.03em; line-height: 1.1; }
 .step p { color: var(--fg2); font-size: 16.5px; }
+.steps.three { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.steps.five { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+
+/* ---------- Why Pier Counsel ---------- */
+.why-stats { padding-top: 0; }
+.why-stats .stat .n { font-size: clamp(3rem, 5.6vw, 6rem); }
+.why-split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 40px clamp(40px, 7vw, 120px); align-items: start; }
+.why-split > header { display: grid; justify-items: start; align-content: start; }
+.seat-list { border-top: 1px solid var(--line); }
+.seat-list li { display: grid; gap: 10px; padding: clamp(22px, 2.6vw, 32px) 0; border-bottom: 1px solid var(--line); }
+.seat-list .label-mono { color: var(--accent); }
+.seat-list p { font-size: clamp(1.25rem, 1.8vw, 1.6rem); font-stretch: 106%; font-weight: 500; letter-spacing: -0.025em; line-height: 1.25; text-wrap: pretty; }
+.deals { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: clamp(40px, 5vw, 64px); }
+.deal { display: flex; flex-direction: column; gap: 14px; min-height: 250px; padding: clamp(22px, 2.4vw, 32px); border: 1px solid var(--line); transition: border-color .3s; }
+.deal:hover { border-color: var(--accent); }
+.deal .tag { font: 500 12px/1.3 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.deal h3 { font-size: clamp(1.3rem, 1.8vw, 1.6rem); font-stretch: 108%; font-weight: 500; letter-spacing: -0.03em; line-height: 1.15; text-wrap: balance; }
+.deal .meta { color: var(--fg2); font-size: 16px; line-height: 1.5; }
+.deal .side { margin-top: auto; padding-top: 16px; border-top: 1px solid var(--line); font: 500 12px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; }
+.fine { margin-top: 24px; color: var(--fg2); font-size: 15px; }
+.recog-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); gap: 40px clamp(40px, 7vw, 120px); align-items: start; }
+.recog-grid > header { display: grid; justify-items: start; align-content: start; }
+.recog { border-top: 1px solid var(--line); }
+.recog li { display: grid; grid-template-columns: 6.5em minmax(0, 1fr); gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); font-size: 17px; line-height: 1.45; }
+.recog .y { font: 500 13px/1.6 var(--mono); letter-spacing: .1em; color: var(--accent); }
 
 /* ---------- Forms ---------- */
 .form-split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 48px clamp(40px, 6vw, 96px); align-items: start; }
@@ -849,7 +874,9 @@ details[open] p { animation: fade .5s var(--ease); }
   .article { grid-template-columns: minmax(0, 720px); }
   .toc { position: static; border: 1px solid var(--line); padding: 20px 22px; }
   .toc ol { max-height: none; }
-  .steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .steps, .steps.three, .steps.five { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .deals { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .why-split, .recog-grid { grid-template-columns: 1fr; }
   .leaders { grid-template-columns: 1fr; }
   .rail { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
@@ -878,7 +905,9 @@ details[open] p { animation: fade .5s var(--ease); }
   .brand img { height: 36px; }
   .hero-title { font-stretch: 104%; }
   .ph-meta span:nth-child(2) { display: none; }
-  .stats-grid, .ins-grid, .principles, .principles.three, .offices, .bgrid, .steps, .facts { grid-template-columns: 1fr; }
+  .stats-grid, .ins-grid, .principles, .principles.three, .offices, .bgrid, .steps, .steps.three, .steps.five, .deals, .facts { grid-template-columns: 1fr; }
+  .deal { min-height: 0; }
+  .recog li { grid-template-columns: 1fr; gap: 4px; }
   .tlist { grid-template-columns: 1fr; }
   .partner { grid-template-columns: 1fr; }
   .partner .tphoto { width: 120px; }
