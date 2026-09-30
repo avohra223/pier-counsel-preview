@@ -256,6 +256,8 @@
       $('#dRole').textContent = $('.trole', card).textContent;
       $('#dName').textContent = $('.tname', card).textContent;
       $('#dBio').textContent = $('.bio-src', card).textContent;
+      const li = $('#dLinkedin');
+      if (li) { li.hidden = !card.dataset.linkedin; if (card.dataset.linkedin) li.href = card.dataset.linkedin; }
       drawer.showModal();
     });
     $('#drawerClose').addEventListener('click', () => drawer.close());
@@ -350,10 +352,10 @@
       const box = inp.closest('.file'), fn = $('.fn', box), def = fn.textContent;
       inp.addEventListener('change', () => {
         const f = inp.files[0];
-        const tooBig = f && f.size > 8 * 1024 * 1024;
+        const tooBig = f && f.size > 4 * 1024 * 1024;
         box.classList.toggle('has', !!f && !tooBig);
-        fn.textContent = !f ? def : tooBig ? 'That file is over 8 MB. Choose a smaller file.' : `${f.name} · ${(f.size / 1024 / 1024).toFixed(1)} MB`;
-        inp.setCustomValidity(tooBig ? 'File is larger than 8 MB' : '');
+        fn.textContent = !f ? def : tooBig ? 'That file is over 4 MB. Choose a smaller file.' : `${f.name} · ${(f.size / 1024 / 1024).toFixed(1)} MB`;
+        inp.setCustomValidity(tooBig ? 'File is larger than 4 MB' : '');
       });
     });
     const validate = el => {
@@ -373,13 +375,24 @@
       if (bad.length) { e.preventDefault(); bad[0].focus(); return; }
       const btn = $('button[type="submit"]', form);
       btn.disabled = true;
+      const thanks = form.name === 'careers' ? '/thank-you?form=careers' : '/thank-you';
+      e.preventDefault();
       if (document.body.hasAttribute('data-preview')) {
-        e.preventDefault();
         $('.label', btn).textContent = 'Preview only: nothing was sent';
-        setTimeout(() => { location.href = form.getAttribute('action'); }, 1400);
+        setTimeout(() => { location.href = thanks; }, 1400);
         return;
       }
-      $('.label', btn).textContent = 'Sending…';
+      const label = $('.label', btn), idle = label.textContent;
+      label.textContent = 'Sending…';
+      fetch(form.action, { method: 'POST', body: new FormData(form), headers: { Accept: 'application/json' } })
+        .then(r => r.json().then(d => { if (!r.ok) throw new Error(d.error); location.href = d.redirect || thanks; }))
+        .catch(() => {
+          btn.disabled = false;
+          label.textContent = idle;
+          const note = $('.form-note', form);
+          note.textContent = 'Sorry, we couldn’t send this. Please try again, or email contact@piercounsel.com.';
+          note.classList.add('form-error');
+        });
     });
   });
 

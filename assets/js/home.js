@@ -190,20 +190,13 @@
   const diffSec = $('.diff'), rows = $$('.drow'), dcap = $('#dcap'), dtag = $('#dtag');
   const CAPS = [
     ['Business-first', 'Legal strategy that works in step with your commercial goals.'],
-    ['Cross-border', 'Indian regulatory frameworks, global compliance expectations.'],
-    ['Clear & structured', 'A clear scope, open communication, and responsible execution.'],
-    ['Clarity over jargon', 'Clear, practical guidance that is understandable and actionable.']
+    ['Cross-border', 'Indian regulatory frameworks, global compliance expectations.']
   ];
   let dW = 0, dH = 0, dActive = 0, dPrev = 0, dSwitch = -10, dOn = false, baseA = 1, hoverLock = false;
   const ga = a => { dx.globalAlpha = baseA * a; };
   const mono = px => { dx.font = `500 ${px}px "Geist Mono", ui-monospace, monospace`; };
   const serif = px => { dx.font = `italic 300 ${px}px Newsreader, Georgia, serif`; };
   const seg = (x1, y1, x2, y2) => { dx.beginPath(); dx.moveTo(x1, y1); dx.lineTo(x2, y2); dx.stroke(); };
-  let seed = 11;
-  const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
-  const RND = Array.from({ length: 16 }, () => [rnd(), rnd(), rnd()]);
-  const PAIRS = [['notwithstanding the foregoing', 'Clear.'], ['inter alia, mutatis mutandis', 'Practical.'], ['save as otherwise provided herein', 'Understandable.'], ['hereinafter referred to as', 'Actionable.']];
-  const GL = 'abcdefghijklmnopqrstuvwxyz§¶';
   const FLOWS = ['Foreign investment routes', 'International transactions', 'Overseas investment', 'Cross-jurisdictional compliance'];
   const scenes = [
     t => { // legal strategy in step with commercial goals
@@ -265,42 +258,6 @@
       ga(Math.min(1, ph * 5, (1 - ph) * 5)); serif(Math.min(26, dW * 0.05)); dx.fillStyle = '#C5DCF1';
       dx.fillText(FLOWS[idx], dW / 2, dH * 0.14); dx.textAlign = 'left';
     },
-    t => { // scattered pieces settle into structure
-      const s = Math.min(dW, dH) * 0.1, gp = s * 0.32, gw = 4 * s + 3 * gp, ox3 = (dW - gw) / 2, oy3 = dH * 0.18;
-      const c = (t % 7) / 7;
-      const kk = c < 0.3 ? ease(c / 0.3) : c < 0.78 ? 1 : 1 - ease((c - 0.78) / 0.22);
-      for (let i = 0; i < 16; i++) {
-        const r = RND[i];
-        const tx = ox3 + (i % 4) * (s + gp), ty = oy3 + Math.floor(i / 4) * (s + gp);
-        const sx = dW * (0.06 + r[0] * 0.8), sy = dH * (0.06 + r[1] * 0.74);
-        const x = sx + (tx - sx) * kk, y = sy + (ty - sy) * kk, rot = (r[2] - 0.5) * 1.8 * (1 - kk);
-        dx.save(); dx.translate(x + s / 2, y + s / 2); dx.rotate(rot);
-        ga(0.85); dx.strokeStyle = '#E6ECF3'; dx.lineWidth = 1; dx.strokeRect(-s / 2, -s / 2, s, s);
-        if (i % 5 === 0) { ga(0.25 + 0.7 * kk); dx.fillStyle = '#86B4DF'; dx.fillRect(-s / 2 + 4, -s / 2 + 4, s - 8, s - 8); }
-        dx.restore();
-      }
-      ga(clamp((kk - 0.8) / 0.2)); mono(12); dx.fillStyle = '#C5DCF1'; dx.textAlign = 'center';
-      dx.fillText('SCOPE   ·   COMMUNICATION   ·   EXECUTION', dW / 2, oy3 + gw + s * 1.1); dx.textAlign = 'left';
-    },
-    t => { // jargon resolves into plain words
-      const c = (t % 8) / 8, x = dW * 0.1;
-      const fade = c > 0.9 ? 1 - (c - 0.9) / 0.1 : 1;
-      PAIRS.forEach(([j, pl], i) => {
-        const y = dH * (0.28 + i * 0.16), st = 0.1 + i * 0.09, en = st + 0.18;
-        if (c < st) { ga(0.6); mono(14); dx.fillStyle = '#9DAEC0'; dx.fillText(j, x, y); }
-        else if (c < en) {
-          const q = (c - st) / (en - st);
-          const len = Math.round(j.length - (j.length - pl.length) * q), shown = Math.floor(q * pl.length);
-          let s = '';
-          for (let n = 0; n < len; n++) s += n < shown ? pl[n] : GL[(Math.random() * GL.length) | 0];
-          ga(0.95); mono(16); dx.fillStyle = '#C5DCF1'; dx.fillText(s, x, y);
-        } else {
-          ga(fade); serif(Math.min(46, dW * 0.08)); dx.fillStyle = i % 2 ? '#EEF2F6' : '#86B4DF'; dx.fillText(pl, x, y);
-          if (fade < 1) { ga((1 - fade) * 0.6); mono(14); dx.fillStyle = '#9DAEC0'; dx.fillText(j, x, y); }
-        }
-      });
-      ga(0.5); mono(12); dx.fillStyle = '#9DAEC0'; dx.fillText('JARGON  →  GUIDANCE', x, dH * 0.9);
-    }
   ];
   function sizeDiff() {
     const r = dc.getBoundingClientRect();
